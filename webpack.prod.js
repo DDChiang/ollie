@@ -21,7 +21,10 @@ module.exports = merge(commonConfig, {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production')
+      'process.env': {
+        NODE_ENV: JSON.stringify('development'),
+        HAS_REDUX_DEV_TOOLS: false
+      },
       // TODO: handle port
     }),
     new webpack.LoaderOptionsPlugin({

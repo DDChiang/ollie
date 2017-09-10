@@ -53,7 +53,10 @@ module.exports = merge(commonConfig, {
   plugins: [
     new webpack.HotModuleReplacementPlugin(), // Enable HMR
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development')
+      'process.env': {
+        NODE_ENV: JSON.stringify('development'),
+        HAS_REDUX_DEV_TOOLS: true
+      },
     })
   ],
   devServer: {
