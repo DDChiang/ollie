@@ -1,8 +1,22 @@
-export const SET_TODO_DATA = 'SET_TODO_DATA';
+import testData from '../../data/testData';
 
-export const setTodoData = (todo) => {
+export const ADD_TODO = 'ADD_TODO';
+export const FETCH_TODO_LIST = 'FETCH_TODO_LIST';
+
+export const fetchTodoList = (personId) => {
+  // TODO: get todoList for correct person
+  const todoList = testData;
+
   return {
-    type: SET_TODO_DATA,
+    type: FETCH_TODO_LIST,
+    todoList,
+  }
+};
+
+
+export const addTodo = (todo) => {
+  return {
+    type: ADD_TODO,
     todo,
   };
 };
