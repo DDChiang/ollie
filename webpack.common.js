@@ -5,7 +5,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  context: path.resolve(__dirname, 'src'),
+  context: path.join(__dirname, './src'),
   entry: {
     app: './index.js' // somehow this needs ./ prefix
   },

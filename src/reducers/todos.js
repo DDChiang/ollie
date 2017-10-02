@@ -1,3 +1,5 @@
+import uuidv4 from 'uuid';
+
 import {
   ADD_TODO,
   FETCH_TODO_LIST,
@@ -7,8 +9,15 @@ export const todoInitialState = [];
 
 export default (state = todoInitialState, action) => {
   switch (action.type) {
-    // case SET_TODO_DATA:
-    //   return action.todo;
+    case ADD_TODO:
+      // TODO: BE
+      // static
+      const newTodo = {
+        id: uuidv4(),
+        value: action.todoVal,
+      };
+
+      return state.concat([newTodo]);
 
     case FETCH_TODO_LIST:
       return action.todoList;

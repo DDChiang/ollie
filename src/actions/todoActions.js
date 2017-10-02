@@ -11,12 +11,11 @@ export const fetchTodoList = (personId) => {
     type: FETCH_TODO_LIST,
     todoList,
   }
-};
+}
 
-
-export const addTodo = (todo) => {
+export const addTodo = (todoVal) => {
   return {
     type: ADD_TODO,
-    todo,
-  };
-};
+    todoVal,
+  }
+}

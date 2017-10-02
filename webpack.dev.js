@@ -8,7 +8,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = merge(commonConfig, {
   // https://webpack.github.io/docs/configuration.html#devtool
   // devtool: 'eval-cheap-module-source-map',
-  devtool: 'source-map',
+  devtool: 'eval-source-map',
   module: {
     rules: [
       {
@@ -63,7 +63,7 @@ module.exports = merge(commonConfig, {
     port: 1888,
     historyApiFallback: true,
     hot: true, // Tell dev server we're using HMR
-    contentBase: path.resolve(__dirname, 'dist'),
+    contentBase: path.join(__dirname, './src'),
     publicPath: '/'
   }
 });

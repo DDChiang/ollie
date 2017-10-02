@@ -9,7 +9,7 @@ import {
   // etc.
 } from 'react-router-dom'
 
-import Login from './containers/login';
+import Login from './containers/Login';
 import TodoContainer from './containers/TodoContainer';
 
 import Store from './store';
