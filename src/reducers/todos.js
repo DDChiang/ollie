@@ -1,7 +1,10 @@
 import uuidv4 from 'uuid';
+import _ from 'lodash';
 
 import {
   ADD_TODO,
+  EDIT_TODO,
+  DELETE_TODO,
   FETCH_TODO_LIST,
 } from '../actions/todoActions';
 
@@ -18,6 +21,16 @@ export default (state = todoInitialState, action) => {
       };
 
       return state.concat([newTodo]);
+
+    case DELETE_TODO:
+      // TODO: BE
+      // static
+      return state.filter((item, i) => {
+        return item.id !== action.id;
+      });
+
+    case EDIT_TODO:
+      return state;
 
     case FETCH_TODO_LIST:
       return action.todoList;

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 
+import Modal from './Modal';
 import { addTodo } from '../actions/todoActions';
 
 @Radium
@@ -24,15 +25,15 @@ export class AddTodo extends Component {
 
   render() {
     return (
-      <div>
+      <Modal
+        defaultAction={ this._addTodo }
+        defaultActionText="Add Todo"
+      >
         <input
           value={ this.state.value }
           onInput={ this._handleOnInput }
         />
-        <button onClick={ this._addTodo }>
-          Add Todo
-        </button>
-      </div>
+      </Modal>
     );
   }
 }

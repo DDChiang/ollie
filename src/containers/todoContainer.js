@@ -3,6 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import {
+  deleteTodo,
+  editTodo,
   fetchTodoList,
 } from '../actions/todoActions';
 import {
@@ -13,29 +15,38 @@ import TodoItem from '../components/TodoItem';
 
 export class TodoContainer extends Component {
   componentWillMount() {
-    const { dispatchFetchTodoList } = this.props;
-
-    dispatchFetchTodoList();
+    this.props.dispatchFetchTodoList();
   }
 
   triggerAddTodoModal = () => {
-    const { dispatchSetModal } = this.props;
-
-    dispatchSetModal('addTodo');
+    this.props.dispatchSetModal('addTodo');
   };
+
+  deleteTodo = (id) => {
+    this.props.dispatchDeleteTodo(id);
+  }
+
+  editTodo = (id, val) => {
+    this.props.dispatchEditTodo(id, val);
+  }
 
   render() {
     const { todos } = this.props;
-
-    console.log(todos);
 
     return (
       <div>
         <button onClick={ this.triggerAddTodoModal }>Button</button>
         <ul>
           {
-            todos.map((todo) => {
-              return <TodoItem { ...todo } />
+            todos.map((todo, ind) => {
+              return (
+                <TodoItem
+                  dataIndex={ ind }
+                  key={ `todo-${ind}` }
+                  { ...todo }
+                  deleteTodo={ this.deleteTodo }
+                />
+              );
             })
           }
         </ul>
@@ -53,6 +64,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
+    dispatchDeleteTodo: deleteTodo,
+    dispatchEditTodo: editTodo,
     dispatchFetchTodoList: fetchTodoList,
     dispatchSetModal: setModal,
   }, dispatch);
