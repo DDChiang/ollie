@@ -3,12 +3,21 @@ import Radium from 'radium';
 
 @Radium
 export default class TodoItem extends Component {
-  handleDelete = () => {
+  _handleDelete = () => {
     const {
       id,
     } = this.props;
 
     this.props.deleteTodo(id);
+  }
+
+  _handleEdit = () => {
+    const {
+      id,
+      value,
+    } = this.props;
+
+    this.props.triggerEditTodoModal({ id, value });
   }
 
   render() {
@@ -24,13 +33,13 @@ export default class TodoItem extends Component {
           <p style={ style.p }>{ value }</p>
         </div>
         <button
-          onClick={ this.handleDelete }
+          onClick={ this._handleDelete }
           style={ [style.button, style.deleteButton] }
         >
           Delete
         </button>
         <button
-          onClick={ this.handleEdit }
+          onClick={ this._handleEdit }
           style={ [style.button, style.editButton] }
         >
           Edit

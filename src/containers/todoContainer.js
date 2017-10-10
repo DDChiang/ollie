@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import {
   deleteTodo,
-  editTodo,
   fetchTodoList,
 } from '../actions/todoActions';
 import {
@@ -22,12 +21,16 @@ export class TodoContainer extends Component {
     this.props.dispatchSetModal('addTodo');
   };
 
+  _triggerEditTodoModal = (todoItemData) => {
+    this.props.dispatchSetModal('editTodo', todoItemData);
+  }
+
   deleteTodo = (id) => {
     this.props.dispatchDeleteTodo(id);
   }
 
   editTodo = (id, val) => {
-    this.props.dispatchEditTodo(id, val);
+    this.props.dispatchSetModal('editTodo');
   }
 
   render() {
@@ -45,6 +48,7 @@ export class TodoContainer extends Component {
                   key={ `todo-${ind}` }
                   { ...todo }
                   deleteTodo={ this.deleteTodo }
+                  triggerEditTodoModal={ this._triggerEditTodoModal }
                 />
               );
             })
@@ -65,7 +69,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     dispatchDeleteTodo: deleteTodo,
-    dispatchEditTodo: editTodo,
     dispatchFetchTodoList: fetchTodoList,
     dispatchSetModal: setModal,
   }, dispatch);

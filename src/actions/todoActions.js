@@ -1,7 +1,7 @@
 import testData from '../../data/testData';
 
 export const ADD_TODO = 'ADD_TODO';
-export const EDIT_TODO = 'EDIT_TODO';
+export const SAVE_TODO = 'SAVE_TODO';
 export const DELETE_TODO = 'DELETE_TODO';
 export const FETCH_TODO_LIST = 'FETCH_TODO_LIST';
 
@@ -29,9 +29,9 @@ export const deleteTodo = (id) => {
   }
 }
 
-export const editTodo = (id, value) => {
+export const saveTodo = ({ id, value }) => {
   return {
-    type: DELETE_TODO,
+    type: SAVE_TODO,
     id,
     value,
   }

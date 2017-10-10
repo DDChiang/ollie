@@ -4,15 +4,18 @@ import { connect } from 'react-redux';
 import Radium from 'radium';
 
 import AddTodo from '../components/AddTodo';
+import EditTodo from '../components/EditTodo';
 
 @Radium
 export class TodoModal extends Component {
   render() {
-    const { modal } = this.props;
+    const { modal: { modalType } } = this.props;
 
-    switch(modal) {
+    switch(modalType) {
       case 'addTodo':
         return <AddTodo />;
+      case 'editTodo':
+        return <EditTodo />
       default:
         return null;
     }

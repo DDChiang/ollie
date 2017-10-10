@@ -3,15 +3,24 @@ import {
   SET_MODAL,
 } from '../actions/modalActions';
 
-export const modalInitialState = null;
+export const modalInitialState = {
+  modalType: null,
+  modalData: null,
+};
 
 export default (state = modalInitialState, action) => {
   switch (action.type) {
     case SET_MODAL:
-      return action.modal;
+      return {
+        modalType: action.modalType,
+        modalData: action.modalData,
+      };
 
     case CLOSE_MODAL:
-      return null;
+      return {
+        modalType: null,
+        modalData: null,
+      };
 
     default:
       return state;

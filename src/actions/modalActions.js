@@ -7,9 +7,10 @@ export const closeModal = () => {
   }
 }
 
-export const setModal = (modalType) => {
+export const setModal = (modalType, modalData=null) => {
   return {
     type: SET_MODAL,
-    modal: modalType,
+    modalType,
+    modalData,
   }
 }
