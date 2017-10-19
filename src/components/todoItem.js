@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import Radium from 'radium';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { DragSource, DropTarget } from 'react-dnd';
@@ -13,22 +13,21 @@ const todoSource = {
   beginDrag(props) {
     return {
       id: props.id,
-      // dataIndex ==> order that todo is mapped in
-      index: props.dataIndex,
+      index: props.index,
     }
-  }
+  },
 }
 
 const todoTarget = {
   hover(props, monitor, component) {
-    const currTodoIndex = monitor.getItem().index;
-    const newTodoIndex = props.dataIndex;
+    const currIndex = monitor.getItem().index
+    const newIndex = props.index
 
-    if (currTodoIndex === newTodoIndex) {
-      return;
+    // Don't replace items with themselves
+    if (currIndex === newIndex) {
+      return
     }
 
-    // test
     // Determine rectangle on screen
     const hoverBoundingRect = findDOMNode(component).getBoundingClientRect()
 
@@ -46,46 +45,44 @@ const todoTarget = {
     // When dragging upwards, only move when the cursor is above 50%
 
     // Dragging downwards
-    if (currTodoIndex < newTodoIndex && hoverClientY < hoverMiddleY) {
+    if (currIndex < newIndex && hoverClientY < hoverMiddleY) {
       return
     }
 
     // Dragging upwards
-    if (currTodoIndex > newTodoIndex && hoverClientY > hoverMiddleY) {
+    if (currIndex > newIndex && hoverClientY > hoverMiddleY) {
       return
     }
 
-    props.dispatchMoveTodo(currTodoIndex, newTodoIndex);
+    // Time to actually perform the action
+    props.dispatchMoveTodo(currIndex, newIndex)
 
     // Note: we're mutating the monitor item here!
     // Generally it's better to avoid mutations,
     // but it's good here for the sake of performance
     // to avoid expensive index searches.
-    monitor.getItem().index = newTodoIndex;
-  }
+    monitor.getItem().index = newIndex
+  },
 }
 
-@DropTarget(ItemTypes.TODO, todoTarget, (connect, monitor) => ({
+@DropTarget(ItemTypes.TODO, todoTarget, connect => ({
   connectDropTarget: connect.dropTarget(),
-  isHover: monitor.isOver(),
 }))
 @DragSource(ItemTypes.TODO, todoSource, (connect, monitor) => ({
-  // Call this function inside render()
-  // to let React DnD handle the drag events:
   connectDragSource: connect.dragSource(),
-  // You can ask the monitor about the current drag state
   isDragging: monitor.isDragging(),
 }))
 @Radium
 export class TodoItem extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
+    index: PropTypes.number.isRequired,
     value: PropTypes.string.isRequired,
-
     // Injected by React DnD
     connectDragSource: PropTypes.func.isRequired,
+    connectDropTarget: PropTypes.func.isRequired,
     isDragging: PropTypes.bool.isRequired,
-    isHover: PropTypes.func.isRequired,
+    moveTodo: PropTypes.func.isRequired,
     dispatchMoveTodo: PropTypes.func.isRequired,
   }
 
@@ -110,18 +107,15 @@ export class TodoItem extends Component {
     const {
       id,
       value,
-      // test
       connectDropTarget,
       connectDragSource,
       isDragging,
-      isHover,
     } = this.props;
-    const isDraggingStyle = isDragging ? style.itemDragging : null;
-    const isHoverStyle = isHover ? style.itemHover : null;
+    const opacity = isDragging ? 0 : 1;
 
     return connectDragSource(
       connectDropTarget(
-        <div style={ [style.item, isDraggingStyle, isHoverStyle] }>
+        <div style={{ ...style.item, opacity }}>
           <div style={ style.itemContent }>
             <p style={ style.p }>{ id }</p>
             <p style={ style.p }>{ value }</p>
@@ -139,14 +133,15 @@ export class TodoItem extends Component {
             Edit
           </button>
         </div>
-      )
-    );
+      ),
+    )
   }
 }
 
 const style = {
   item: {
-    border: '1px solid black',
+    border: '1px solid yellow',
+    padding: '0.5rem 1rem',
     display: 'flex',
     cursor: 'move',
     opacity: 1,

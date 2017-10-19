@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import Radium from 'radium';
+import HTML5Backend from 'react-dnd-html5-backend';
+import update from 'immutability-helper';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { DragDropContext } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
+
+import TodoItem from '../components/TodoItem';
 
 import {
   deleteTodo,
@@ -13,13 +16,36 @@ import {
   setModal,
 } from '../actions/modalActions';
 import TodoModal from './TodoModal';
-import TodoItem from '../components/TodoItem';
+
 
 @DragDropContext(HTML5Backend)
 @Radium
 export class TodoContainer extends Component {
+  state = {
+    todos: [],
+  }
+
   componentWillMount() {
     this.props.dispatchFetchTodoList();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      todos: nextProps.todos
+    });
+  }
+
+  _moveTodo = (currIndex, newIndex) => {
+    const { todos } = this.state;
+    const dragTodo = todos[currIndex];
+
+    this.setState(
+      update(this.state, {
+        todos: {
+          $splice: [[currIndex, 1], [newIndex, 0, dragTodo]]
+        }
+      })
+    );
   }
 
   triggerAddTodoModal = () => {
@@ -39,7 +65,7 @@ export class TodoContainer extends Component {
   }
 
   render() {
-    const { todos } = this.props;
+    const { todos } = this.state;
 
     return (
       <div>
@@ -49,21 +75,17 @@ export class TodoContainer extends Component {
         >
           Add Todo
         </button>
-        <ul>
-          {
-            todos.map((todo, ind) => {
-              return (
-                <TodoItem
-                  dataIndex={ ind }
-                  key={ `todo-${ind}` }
-                  { ...todo }
-                  deleteTodo={ this.deleteTodo }
-                  triggerEditTodoModal={ this._triggerEditTodoModal }
-                />
-              );
-            })
-          }
-        </ul>
+        {
+          todos.map((todo, ind) => (
+            <TodoItem
+              index={ ind }
+              key={ todo.id }
+              { ...todo }
+              deleteTodo={ this.deleteTodo }
+              triggerEditTodoModal={ this._triggerEditTodoModal }
+              moveTodo={ this._moveTodo }
+            />
+          ))}
         <TodoModal />
       </div>
     );
