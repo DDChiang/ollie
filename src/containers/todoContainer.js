@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Radium from 'radium';
 import HTML5Backend from 'react-dnd-html5-backend';
-import update from 'immutability-helper';
+// import update from 'immutability-helper'; // This might be useful in the future
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { DragDropContext } from 'react-dnd';
@@ -33,19 +33,6 @@ export class TodoContainer extends Component {
     this.setState({
       todos: nextProps.todos
     });
-  }
-
-  _moveTodo = (currIndex, newIndex) => {
-    const { todos } = this.state;
-    const dragTodo = todos[currIndex];
-
-    this.setState(
-      update(this.state, {
-        todos: {
-          $splice: [[currIndex, 1], [newIndex, 0, dragTodo]]
-        }
-      })
-    );
   }
 
   triggerAddTodoModal = () => {
@@ -83,7 +70,6 @@ export class TodoContainer extends Component {
               { ...todo }
               deleteTodo={ this.deleteTodo }
               triggerEditTodoModal={ this._triggerEditTodoModal }
-              moveTodo={ this._moveTodo }
             />
           ))}
         <TodoModal />
