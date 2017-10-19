@@ -4,6 +4,7 @@ export const ADD_TODO = 'ADD_TODO';
 export const SAVE_TODO = 'SAVE_TODO';
 export const DELETE_TODO = 'DELETE_TODO';
 export const FETCH_TODO_LIST = 'FETCH_TODO_LIST';
+export const MOVE_TODO = 'MOVE_TODO';
 
 export const fetchTodoList = (personId) => {
   // TODO: get todoList for correct person
@@ -26,6 +27,14 @@ export const deleteTodo = (id) => {
   return {
     type: DELETE_TODO,
     id,
+  }
+}
+
+export const moveTodo = (currIndex, newIndex) => {
+  return {
+    type: MOVE_TODO,
+    currIndex,
+    newIndex,
   }
 }
 

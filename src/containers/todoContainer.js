@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import Radium from 'radium';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 import {
   deleteTodo,
@@ -12,6 +15,8 @@ import {
 import TodoModal from './TodoModal';
 import TodoItem from '../components/TodoItem';
 
+@DragDropContext(HTML5Backend)
+@Radium
 export class TodoContainer extends Component {
   componentWillMount() {
     this.props.dispatchFetchTodoList();
@@ -38,7 +43,12 @@ export class TodoContainer extends Component {
 
     return (
       <div>
-        <button onClick={ this.triggerAddTodoModal }>Button</button>
+        <button
+          onClick={ this.triggerAddTodoModal }
+          style={ style.addButton }
+        >
+          Add Todo
+        </button>
         <ul>
           {
             todos.map((todo, ind) => {
@@ -59,6 +69,13 @@ export class TodoContainer extends Component {
     );
   }
 }
+
+const style = {
+  addButton: {
+    background: 'rgba(0,0,0,0.2)',
+    width: '100px',
+  },
+};
 
 const mapStateToProps = (state) => {
   return {

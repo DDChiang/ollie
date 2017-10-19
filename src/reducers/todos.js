@@ -3,14 +3,17 @@ import _ from 'lodash';
 
 import {
   ADD_TODO,
-  SAVE_TODO,
   DELETE_TODO,
+  MOVE_TODO,
+  SAVE_TODO,
   FETCH_TODO_LIST,
 } from '../actions/todoActions';
 
 export const todoInitialState = [];
 
 export default (state = todoInitialState, action) => {
+  let todosClone;
+
   switch (action.type) {
     case ADD_TODO:
       // TODO: BE
@@ -29,10 +32,23 @@ export default (state = todoInitialState, action) => {
         return item.id !== action.id;
       });
 
+    case MOVE_TODO:
+      // TODO: BE
+      // static
+      const currIndex = action.currIndex;
+      const newIndex = action.newIndex;
+      const todoToMove = _.clone(state[currIndex]);
+      todosClone = _.cloneDeep(state);
+      todosClone.splice(currIndex, 1);
+      todosClone.splice(newIndex, 0, todoToMove);
+
+      return todosClone;
+
     case SAVE_TODO:
       const todoId = action.id;
       const todoNewValue = action.value;
-      const todosClone = _.cloneDeep(state);
+      todosClone = _.cloneDeep(state);
+
       const editIndex = _.findIndex(todosClone, (todo) => {
         return todo.id === todoId;
       });
