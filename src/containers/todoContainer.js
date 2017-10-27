@@ -55,7 +55,7 @@ export class TodoContainer extends Component {
     const { todos } = this.state;
 
     return (
-      <div>
+      <div style={ style.container }>
         <button
           onClick={ this.triggerAddTodoModal }
           style={ style.addButton }
@@ -79,6 +79,10 @@ export class TodoContainer extends Component {
 }
 
 const style = {
+  container: {
+    width: '80%',
+    maxWidth: '800px',
+  },
   addButton: {
     background: 'rgba(0,0,0,0.2)',
     width: '100px',
