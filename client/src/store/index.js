@@ -1,3 +1,4 @@
+import thunkMiddleware from 'redux-thunk';
 import {
   applyMiddleware,
   combineReducers,
@@ -11,10 +12,12 @@ const hasReduxDevTools = process.env.HAS_REDUX_DEV_TOOLS;
 
 export default createStore(
   combineReducers({
-    ...reducers
+    ...reducers,
   }),
   compose(
-    // applyMiddleware(),
+    applyMiddleware(
+      thunkMiddleware
+    ),
     // If you are using the devToolsExtension, you can add it here also
     (typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined' && hasReduxDevTools) ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f
   )

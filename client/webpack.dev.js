@@ -64,6 +64,12 @@ module.exports = merge(commonConfig, {
     historyApiFallback: true,
     hot: true, // Tell dev server we're using HMR
     contentBase: path.join(__dirname, './src'),
-    publicPath: '/'
+    publicPath: '/',
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000/',
+        sercure: false
+      }
+    }
   }
 });
