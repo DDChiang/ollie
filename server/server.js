@@ -14,6 +14,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/user', (req, res) => {
+  // send as json for now pulling test data
   res.json(testUser);
 });
 

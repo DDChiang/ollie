@@ -21,11 +21,10 @@ export const fetchUser = (userId) => {
     dispatch(requestUser(userId))
     return fetch('/api/user')
       .then(
-        response => response,
+        response => response.json(),
         error => console.log('An error occured', error)
       )
       .then((response) => {
-        console.log(response);
         dispatch(receiveUser(response))
       }
     )

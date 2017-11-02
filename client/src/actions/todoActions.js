@@ -59,7 +59,7 @@ export const fetchTodoList = (personId) => {
 
     return fetch('/api/todos')
       .then(
-        response => response,
+        response => response.json(),
         error => console.log('An error occured', error)
       )
       .then(response =>

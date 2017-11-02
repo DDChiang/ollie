@@ -7,6 +7,7 @@ import {
   MOVE_TODO,
   SAVE_TODO,
   FETCH_TODO_LIST,
+  RECEIVE_TODOS,
 } from '../actions/todoActions';
 
 export const todoInitialState = [];
@@ -61,6 +62,10 @@ export default (state = todoInitialState, action) => {
       return todosClone;
 
     case FETCH_TODO_LIST:
+      // TODO: change loading state
+      return action.todoList;
+
+    case RECEIVE_TODOS:
       return action.todoList;
 
     default:
