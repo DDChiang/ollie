@@ -1,4 +1,7 @@
-import testData from './data/testData';
+import {
+  testData,
+  testTodoLists,
+} from './data/testData';
 import testUser from './data/testUser';
 
 const express = require('express');
@@ -20,6 +23,10 @@ app.get('/api/user', (req, res) => {
 
 app.get('/api/todos', (req, res) => {
   res.json(testData);
+});
+
+app.get('/api/todolists', (req, res) => {
+  res.json(testTodoLists);
 });
 
 app.listen(port, () => {

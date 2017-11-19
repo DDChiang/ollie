@@ -3,6 +3,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
+const PREFIX_STATIC_PATH = process.env.PREFIX_STATIC_PATH || './';
 
 module.exports = {
   context: path.join(__dirname, './src'),
@@ -10,13 +11,11 @@ module.exports = {
     app: './index.js' // somehow this needs ./ prefix
   },
   output: {
-    // Note Export by setting a variable: var Library = xxx (default)
-    // Must do this else this module will be exported as an empty {}
-    // Res: https://webpack.github.io/docs/configuration.html#output-librarytarget
-    libraryTarget: 'var',
-    path: path.resolve(__dirname, 'dist'),
+    // path: path.resolve(__dirname, 'dist'),
+    path: path.join(__dirname, 'dist'),
     filename: '[name].[hash].js',
-    sourceMapFilename: '[name].map'
+    // sourceMapFilename: '[name].map',
+    // publicPath: PREFIX_STATIC_PATH
   },
   module: {
     rules: [

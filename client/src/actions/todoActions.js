@@ -7,16 +7,16 @@ export const MOVE_TODO = 'MOVE_TODO';
 export const REQUEST_TODOS = 'REQUEST_TODOS';
 export const RECEIVE_TODOS = 'RECEIVE_TODOS';
 
-export const requestTodoList = (personId) => {
+export const requestTodoList = () => {
   return {
     type: REQUEST_TODOS,
-    personId,
   }
 }
 
 export const receiveTodoList = (personId, json) => {
   return {
     type: RECEIVE_TODOS,
+    personId,
     todoList: json,
     receivedAt: Date.now(),
   }
@@ -55,7 +55,7 @@ export const saveTodo = ({ id, value }) => {
 // Thunk action creators!
 export const fetchTodoList = (personId) => {
   return (dispatch) => {
-    dispatch(requestTodoList(personId));
+    dispatch(requestTodoList());
 
     return fetch('/api/todos')
       .then(

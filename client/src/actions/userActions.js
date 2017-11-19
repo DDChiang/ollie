@@ -16,15 +16,21 @@ export const receiveUser = (user) => {
   };
 };
 
-export const fetchUser = (userId) => {
+export const fetchUser = (userInfo) => {
   return dispatch => {
-    dispatch(requestUser(userId))
-    return fetch('/api/user')
+    dispatch(requestUser());
+
+    const data = {
+      body: JSON.stringify(userInfo),
+    };
+
+    return fetch('/api/user', data)
       .then(
         response => response.json(),
         error => console.log('An error occured', error)
       )
       .then((response) => {
+        console.log(response);
         dispatch(receiveUser(response))
       }
     )

@@ -15,13 +15,22 @@ export class LoginContainer extends Component {
 
     dispatchFetchUser();
   }
+
+  _submitLogin = () => {
+    const { history } = this.props;
+
+    history.push('/todolists');
+  }
+
   render() {
     return (
       <div>
         <p>Login</p>
         <Link to="/todo">
-          Follow me to Todos
+          Example of Todo List
         </Link>
+        <hr />
+        <button onClick={ this._submitLogin }>Log in</button>
       </div>
     );
   }

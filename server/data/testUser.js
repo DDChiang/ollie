@@ -1,5 +1,5 @@
 const testUser = {
-  id: 1,
+  id: '1',
   name: 'Deedee Chiang',
   username: 'ddc',
 };

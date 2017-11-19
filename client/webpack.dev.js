@@ -1,4 +1,5 @@
-// THIS IS DEV/LOCAL VERSION
+// THIS IS LOCAL VERSION (not necessarily "dev")
+
 const merge = require('webpack-merge');
 const path = require('path');
 const webpack = require('webpack');
@@ -64,7 +65,21 @@ module.exports = merge(commonConfig, {
     historyApiFallback: true,
     hot: true, // Tell dev server we're using HMR
     contentBase: path.join(__dirname, './src'),
-    publicPath: '/',
+    // publicPath: '/',
+    stats: {
+      assets: true,
+      children: false,
+      chunks: false,
+      hash: false,
+      modules: false,
+      publicPath: true,
+      timings: true,
+      version: false,
+      warnings: true,
+      colors: {
+        green: '\u001b[32m',
+      }
+    },
     proxy: {
       '/api': {
         target: 'http://localhost:3000/',
