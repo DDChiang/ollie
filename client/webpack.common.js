@@ -3,19 +3,18 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
-const PREFIX_STATIC_PATH = process.env.PREFIX_STATIC_PATH || './';
 
 module.exports = {
-  context: path.join(__dirname, './src'),
+  context: __dirname,
   entry: {
-    app: './index.js' // somehow this needs ./ prefix
+    app: './src/index.js'
   },
   output: {
     // path: path.resolve(__dirname, 'dist'),
     path: path.join(__dirname, 'dist'),
     filename: '[name].[hash].js',
     // sourceMapFilename: '[name].map',
-    // publicPath: PREFIX_STATIC_PATH
+    // publicPath: './',
   },
   module: {
     rules: [
@@ -51,7 +50,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'index.html', // somehow this does NOT need ./ prefix
+      template: './src/index.html', // somehow this does NOT need ./ prefix
       title: 'Test App Title'
     }),
     new ExtractTextPlugin('[name]-[contentHash].css'),

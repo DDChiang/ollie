@@ -1,3 +1,5 @@
+// TODO: rename to TodoListContainer
+
 import React, { Component } from 'react';
 import Radium from 'radium';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -20,7 +22,7 @@ import TodoModal from './TodoModal';
 
 @DragDropContext(HTML5Backend)
 @Radium
-export class TodoContainer extends Component {
+export class TodoListContainer extends Component {
   state = {
     todos: [],
   }
@@ -106,4 +108,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(TodoContainer);
+)(TodoListContainer);

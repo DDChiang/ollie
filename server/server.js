@@ -3,11 +3,17 @@ import {
   testTodoLists,
 } from './data/testData';
 import testUser from './data/testUser';
+import cors from 'cors';
 
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 const env = process.env.NODE_ENV || 'production';
+
+app.use('*', cors({
+  credentials: true,
+  origin: true,
+}));
 
 app.get('/', (req, res) => {
   res.send({

@@ -26,7 +26,7 @@ export class LoginContainer extends Component {
     return (
       <div>
         <p>Login</p>
-        <Link to="/todo">
+        <Link to="/todolists">
           Example of Todo List
         </Link>
         <hr />

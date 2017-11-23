@@ -30,7 +30,6 @@ export const fetchUser = (userInfo) => {
         error => console.log('An error occured', error)
       )
       .then((response) => {
-        console.log(response);
         dispatch(receiveUser(response))
       }
     )

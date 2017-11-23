@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import {
+  Link,
+} from 'react-router-dom';
 
 import { fetchTodoLists } from '../actions/todoListActions';
 
@@ -17,25 +20,42 @@ export class TodoListsContainer extends Component {
   }
 
   render() {
+    const { match } = this.props;
+
     return (
       <div>
         List of TodoList's
+        {
+          this.props.todolists.map((todoList) => {
+            const { id, name } = todoList;
+
+            return (
+              <div key={ id }>
+                <Link to={ `todolist/${id}` }>{ name }</Link>
+              </div>
+            );
+          })
+        }
       </div>
     );
   }
 }
 
 TodoListsContainer.defaultProps = {
-
+  todolists: [],
 };
 
 TodoListsContainer.propTypes = {
   userId: PropTypes.string.isRequired,
+  todolists: PropTypes.arrayOf(
+    PropTypes.shape({})
+  ),
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({ user, todoLists }) => {
   return {
-    userId: state.user.id,
+    userId: user.id,
+    todolists: todoLists.data,
   };
 };
 
