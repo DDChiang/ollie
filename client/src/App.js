@@ -21,7 +21,7 @@ const NoMatch = () => {
   return <p>No match</p>;
 };
 
-export const RouteConfigComponent = () => {
+export default () => {
   return (
     <div>
       <Switch>

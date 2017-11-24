@@ -2,7 +2,7 @@ import uuidv4 from 'uuid';
 import _ from 'lodash';
 
 import {
-  ADD_TODO_LIST,
+  CREATE_TODO_LIST,
   DELETE_TODO_LIST,
   FETCH_TODO_LISTS,
   REQUEST_TODO_LISTS,
@@ -29,6 +29,14 @@ export default (state = todoInitialState, action) => {
       return _.assign({}, state, {
         isFetching: false,
         data: action.todoLists,
+      });
+
+    case CREATE_TODO_LIST:
+      return _.assign({}, state, {
+        data: state.data.concat([{
+          id: `${uuidv4()}-todoList`,
+          name: action.listName,
+        }]),
       });
 
     default:

@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+import { createTodoList } from '../actions/todoListActions';
 
 @Radium
-export default class AddListBlock extends Component {
+export class AddListBlock extends Component {
   state = {
     userIsEditing: false,
     value: '',
@@ -11,14 +15,18 @@ export default class AddListBlock extends Component {
 
   _createList = () => {
     console.log('crete list');
-
-    // Dispatch create list
+    const { value } = this.state;
 
     // Close
     this.setState({
       userIsEditing: false,
       value: '',
     });
+
+    // Dispatch create list
+    if (value.trim().length) {
+      this.props.dispatchCreateTodoList(value);
+    }
   }
 
   _handleInputChange = (e) => {
@@ -87,3 +95,14 @@ const style = {
     }
   },
 };
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    dispatchCreateTodoList: createTodoList,
+  }, dispatch);
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(AddListBlock);

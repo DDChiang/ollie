@@ -1,4 +1,4 @@
-export const ADD_TODO_LIST = 'ADD_TODO_LIST';
+export const CREATE_TODO_LIST = 'CREATE_TODO_LIST';
 export const DELETE_TODO_LIST = 'DELETE_TODO_LIST';
 export const FETCH_TODO_LISTS = 'FETCH_TODO_LISTS';
 
@@ -28,3 +28,8 @@ export const fetchTodoLists = (personId) => {
       })
   }
 }
+
+export const createTodoList = (name) => ({
+  listName: name,
+  type: CREATE_TODO_LIST,
+});
