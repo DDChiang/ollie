@@ -4,6 +4,7 @@ import Radium from 'radium';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import InputElement from './InputElement';
 import { createTodoList } from '../actions/todoListActions';
 
 @Radium
@@ -13,10 +14,7 @@ export class AddListBlock extends Component {
     value: '',
   }
 
-  _createList = () => {
-    console.log('crete list');
-    const { value } = this.state;
-
+  _createList = (value) => {
     // Close
     this.setState({
       userIsEditing: false,
@@ -29,27 +27,19 @@ export class AddListBlock extends Component {
     }
   }
 
-  _handleInputChange = (e) => {
+  _handleInputChange = (value) => {
     this.setState({
-      value: e.target.value,
+      value,
     });
-  }
-
-  _handleKeyPress = (e) => {
-    if (e.keyCode === 13) {
-      this._createList();
-    }
   }
 
   _renderEditContent() {
     return (
       <div>
-        <input
-          type="text"
+        <InputElement
           value={ this.state.value }
-          onChange={ this._handleInputChange }
-          onKeyDown={ this._handleKeyPress }
-          autoFocus
+          handleChange={ this._handleInputChange }
+          handleEnterPress={ this._createList }
         />
         <button onClick={ this._createList }>Create</button>
       </div>

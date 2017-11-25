@@ -5,6 +5,7 @@ import Radium from 'radium';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import InputElement from './InputElement';
 import Modal from './Modal';
 import { saveTodo } from '../actions/todoActions';
 
@@ -29,6 +30,9 @@ export class EditTodo extends Component {
       id,
       value,
     });
+
+    // close modal ??
+    // who better to handle this?
   }
 
   _handleOnInput = (e) => {
@@ -43,9 +47,10 @@ export class EditTodo extends Component {
         defaultAction={ this._saveTodo }
         defaultActionText="Save"
       >
-        <input
+        <InputElement
           value={ this.state.value }
-          onChange={ this._handleOnInput }
+          handleChange={ this._handleOnInput }
+          handleEnterPress={ this._saveTodo }
         />
       </Modal>
     );

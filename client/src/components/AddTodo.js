@@ -6,6 +6,7 @@ import Radium from 'radium';
 
 import Modal from './Modal';
 import { addTodo } from '../actions/todoActions';
+import InputElement from './InputElement';
 
 @Radium
 export class AddTodo extends Component {
@@ -17,9 +18,9 @@ export class AddTodo extends Component {
     this.props.dispatchAddTodo(this.state.value);
   }
 
-  _handleOnInput = (e) => {
+  _handleOnInput = (value) => {
     this.setState({
-      value: e.target.value,
+      value,
     });
   }
 
@@ -29,23 +30,18 @@ export class AddTodo extends Component {
         defaultAction={ this._addTodo }
         defaultActionText="Add Todo"
       >
-        <input
+        <InputElement
           value={ this.state.value }
-          onInput={ this._handleOnInput }
+          handleChange={ this._handleOnInput }
+          handleEnterPress={ this._addTodo }
         />
       </Modal>
     );
   }
 }
 
-AddTodo.defaultProps = {
-
-};
-
-AddTodo.propTypes = {
-
-};
-
+AddTodo.defaultProps = {};
+AddTodo.propTypes = {};
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
