@@ -12,6 +12,7 @@ export class TodoModal extends Component {
     const { modal: { modalType } } = this.props;
 
     switch(modalType) {
+      // this case may not be used anymore
       case 'createTodo':
         return <AddTodo />;
       case 'editTodo':

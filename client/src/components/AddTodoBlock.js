@@ -18,27 +18,64 @@ export class AddTodoBlock extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.state.editMode && !nextProps.editMode) {
+      this._resetEditMode();
+    }
+  }
+
+  _cancelEditState = (e) => {
+    const { addToTop, handleClose } = this.props;
+
+    if (addToTop) {
+      handleClose();
+    }
+
+    this._resetEditMode();
+  }
+
   _createTodo = (value) => {
     const { addToTop, dispatchCreateTodo } = this.props
     const todoVal = value.length ? value : this.state.value;
 
-    if (todoVal.trim().length) {
-      dispatchCreateTodo({
-        todoVal,
-        addToTop,
-      });
+    if (!todoVal.trim().length) {
+      this._cancelEditState();
+      return;
     }
 
-    this.setState({
-      editMode: false,
-      value: '',
+    dispatchCreateTodo({
+      todoVal,
+      addToTop,
     });
+
+    this._resetEditMode();
   }
 
   _handleInputChange = (value) => {
     this.setState({
       value,
     });
+  }
+
+  _resetEditMode() {
+    this.setState({
+      editMode: false,
+      value: '',
+    });
+  }
+
+  _triggerEditState = (e) => {
+    e.stopPropagation();
+
+    if (!this.state.editMode) {
+      this.setState({
+        editMode: true
+      });
+      // tell parent container
+      if (!this.props.addToTop) {
+        this.props.setEditMode();
+      }
+    }
   }
 
   _renderEditContent() {
@@ -51,16 +88,9 @@ export class AddTodoBlock extends Component {
           handleEnterPress={ this._createTodo }
         />
         <button onClick={ this._createTodo }>Create</button>
+        <button onClick={ this._cancelEditState }>X</button>
       </div>
     );
-  }
-
-  _triggerEditState = () => {
-    if (!this.state.editMode) {
-      this.setState({
-        editMode: true
-      });
-    }
   }
 
   render() {
@@ -98,10 +128,14 @@ const style = {
 AddTodoBlock.defaultProps = {
   addToTop: false,
   editMode: false,
+  setEditMode: () => {},
+  handleClose: () => {},
 };
 AddTodoBlock.propTypes = {
   addToTop: PropTypes.bool,
   editMode: PropTypes.bool,
+  setEditMode: PropTypes.func,
+  handleClose: PropTypes.func,
 };
 
 const mapDispatchToProps = (dispatch) => {

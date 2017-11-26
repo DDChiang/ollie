@@ -47,13 +47,22 @@ export class EditTodo extends Component {
         <InputElement
           value={ this.state.value }
           handleChange={ this._handleOnInput }
+          handleEnterPress={ this._saveTodo }
         />
+      {
+        /* Not closing modal when "enter" key is pressed
+        since there will be more "edit" options available
+        */
+      }
+      <button>Schedule/Change Date</button>
+      <button>Set Recurring</button>
+      <button>Add Label</button>
+      <button>Add to Project</button>
+      <button>Mark as Done</button>
       </Modal>
     );
   }
 }
-
-// handleEnterPress={ this._saveTodo }
 
 EditTodo.defaultProps = {
 

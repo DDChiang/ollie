@@ -20,6 +20,7 @@ export class TodoListContainer extends Component {
   state = {
     todos: [],
     showAddTodoTop: false,
+    bottomAddTodoEditMode: false,
   }
 
   componentWillMount() {
@@ -33,14 +34,28 @@ export class TodoListContainer extends Component {
       });
     }
 
+    this._resetEditMode();
+  }
+
+  _triggerRenderAddTodoTop = (e) => {
+    e.stopPropagation();
+
     this.setState({
-      showAddTodoTop: false,
+      showAddTodoTop: true,
+      bottomAddTodoEditMode: false,
     });
   }
 
-  _triggerRenderAddTodoTop = () => {
+  _resetEditMode = () => {
     this.setState({
-      showAddTodoTop: true,
+      showAddTodoTop: false,
+      bottomAddTodoEditMode: false,
+    });
+  }
+
+  _setBottomAddTodoEditMode = () => {
+    this.setState({
+      bottomAddTodoEditMode: true,
     });
   }
 
@@ -52,15 +67,27 @@ export class TodoListContainer extends Component {
         <AddTodoBlock
           addToTop
           editMode
+          handleClose={ this._resetEditMode }
         />
       );
     }
   }
 
   _renderAddTodoBottom() {
-    const { showAddTodoTop } = this.state;
+    const {
+      showAddTodoTop,
+      bottomAddTodoEditMode,
+    } = this.state;
 
-    if (!showAddTodoTop) return <AddTodoBlock />
+    if (!showAddTodoTop) {
+      return (
+        <AddTodoBlock
+          editMode={ bottomAddTodoEditMode }
+          setEditMode={ this._setBottomAddTodoEditMode }
+        />
+      // need to change how "setEditMode" works
+      );
+    }
   }
 
   _renderTodos() {
@@ -80,7 +107,10 @@ export class TodoListContainer extends Component {
     } = this.state;
 
     return (
-      <div style={ style.container }>
+      <div
+        style={ style.container }
+        onClick={ this._resetEditMode }
+      >
         <button
           onClick={ this._triggerRenderAddTodoTop }
           style={ style.addButton }
@@ -100,6 +130,7 @@ const style = {
   container: {
     width: '80%',
     maxWidth: '800px',
+    background: 'grey',
   },
   addButton: {
     background: 'rgba(0,0,0,0.2)',
