@@ -5,27 +5,35 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import InputElement from './InputElement';
-import { createTodoList } from '../actions/todoListActions';
+import { createTodo } from '../actions/todoActions';
 
 @Radium
-export class AddListBlock extends Component {
-  state = {
-    userIsEditing: false,
-    value: '',
+export class AddTodoBlock extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      editMode: props.editMode || false,
+      value: '',
+    }
   }
 
-  _createList = (value) => {
-    const listName = value.length ? value : this.state.value;
-    
+  _createTodo = (value) => {
+    const { addToTop, dispatchCreateTodo } = this.props
+    const todoVal = value.length ? value : this.state.value;
+
+    // Dispatch create Todo
+    if (todoVal.trim().length) {
+      dispatchCreateTodo({
+        todoVal,
+        addToTop,
+      });
+    }
+
     this.setState({
-      userIsEditing: false,
+      editMode: false,
       value: '',
     });
-
-    // Dispatch create list
-    if (listName.trim().length) {
-      this.props.dispatchCreateTodoList(listName);
-    }
   }
 
   _handleInputChange = (value) => {
@@ -35,22 +43,23 @@ export class AddListBlock extends Component {
   }
 
   _renderEditContent() {
+    // TODO: if click out of it, create todo if there is a value
     return (
       <div>
         <InputElement
           value={ this.state.value }
           handleChange={ this._handleInputChange }
-          handleEnterPress={ this._createList }
+          handleEnterPress={ this._createTodo }
         />
-        <button onClick={ this._createList }>Create</button>
+        <button onClick={ this._createTodo }>Create</button>
       </div>
     );
   }
 
   _triggerEditState = () => {
-    if (!this.state.userIsEditing) {
+    if (!this.state.editMode) {
       this.setState({
-        userIsEditing: true
+        editMode: true
       });
     }
   }
@@ -62,9 +71,9 @@ export class AddListBlock extends Component {
         onClick={ this._triggerEditState }
       >
         {
-          this.state.userIsEditing
+          this.state.editMode
             ? this._renderEditContent()
-            : 'Create List +'
+            : 'Create Todo +'
         }
       </div>
     );
@@ -87,13 +96,22 @@ const style = {
   },
 };
 
+AddTodoBlock.defaultProps = {
+  addToTop: false,
+  editMode: false,
+};
+AddTodoBlock.propTypes = {
+  addToTop: PropTypes.bool,
+  editMode: PropTypes.bool,
+};
+
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    dispatchCreateTodoList: createTodoList,
+    dispatchCreateTodo: createTodo,
   }, dispatch);
 };
 
 export default connect(
   null,
   mapDispatchToProps
-)(AddListBlock);
+)(AddTodoBlock);

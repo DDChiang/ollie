@@ -48,11 +48,9 @@ export default class InputElement extends Component {
 
   render() {
     const {
-      // autofocus,
       style,
       type
     } = this.props;
-    // autoFocus={ true && autofocus }
 
     return (
       <input
@@ -78,4 +76,6 @@ InputElement.propTypes = {
   type: PropTypes.string,
   value: PropTypes.string,
   style: PropTypes.shape({}),
+  handleChange: PropTypes.func,
+  handleEnterPress: PropTypes.func,
 };

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Radium from 'radium';
 
 import Modal from './Modal';
-import { addTodo } from '../actions/todoActions';
+import { createTodo } from '../actions/todoActions';
 import InputElement from './InputElement';
 
 @Radium
@@ -14,7 +14,7 @@ export class AddTodo extends Component {
     value: '',
   }
 
-  _addTodo = () => {
+  _createTodo = () => {
     this.props.dispatchAddTodo(this.state.value);
   }
 
@@ -27,13 +27,13 @@ export class AddTodo extends Component {
   render() {
     return (
       <Modal
-        defaultAction={ this._addTodo }
+        defaultAction={ this._createTodo }
         defaultActionText="Add Todo"
       >
         <InputElement
           value={ this.state.value }
           handleChange={ this._handleOnInput }
-          handleEnterPress={ this._addTodo }
+          handleEnterPress={ this._createTodo }
         />
       </Modal>
     );
@@ -45,7 +45,7 @@ AddTodo.propTypes = {};
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    dispatchAddTodo: addTodo,
+    dispatchAddTodo: createTodo,
   }, dispatch);
 };
 

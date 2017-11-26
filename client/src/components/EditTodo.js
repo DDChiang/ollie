@@ -30,14 +30,11 @@ export class EditTodo extends Component {
       id,
       value,
     });
-
-    // close modal ??
-    // who better to handle this?
   }
 
-  _handleOnInput = (e) => {
+  _handleOnInput = (value) => {
     this.setState({
-      value: e.target.value,
+      value,
     });
   }
 

@@ -2,7 +2,7 @@ import uuidv4 from 'uuid';
 import _ from 'lodash';
 
 import {
-  ADD_TODO,
+  CREATE_TODO,
   DELETE_TODO,
   MOVE_TODO,
   SAVE_TODO,
@@ -16,13 +16,20 @@ export default (state = todoInitialState, action) => {
   let todosClone;
 
   switch (action.type) {
-    case ADD_TODO:
+    case CREATE_TODO:
       // TODO: BE
       // static
       const newTodo = {
         id: uuidv4(),
         value: action.todoVal,
       };
+
+      if (action.addToTop) {
+        const todosClone = _.cloneDeep(state);
+
+        todosClone.splice(0, 0, newTodo);
+        return todosClone;
+      }
 
       return state.concat([newTodo]);
 

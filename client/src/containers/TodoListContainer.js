@@ -18,13 +18,14 @@ import {
   setModal,
 } from '../actions/modalActions';
 import TodoModal from './TodoModal';
-
+import AddTodoBlock from '../components/AddTodoBlock';
 
 @DragDropContext(HTML5Backend)
 @Radium
 export class TodoListContainer extends Component {
   state = {
     todos: [],
+    showAddTodoTop: false,
   }
 
   componentWillMount() {
@@ -33,13 +34,14 @@ export class TodoListContainer extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      todos: nextProps.todos
+      todos: nextProps.todos,
+      showAddTodoTop: false,
     });
   }
 
-  triggerAddTodoModal = () => {
-    this.props.dispatchSetModal('addTodo');
-  };
+  // triggerAddTodoModal = () => {
+  //   this.props.dispatchSetModal('createTodo');
+  // };
 
   _triggerEditTodoModal = (todoItemData) => {
     this.props.dispatchSetModal('editTodo', todoItemData);
@@ -53,27 +55,48 @@ export class TodoListContainer extends Component {
     this.props.dispatchSetModal('editTodo');
   }
 
+  _renderTodos() {
+    return this.props.todos.map((todo, ind) => (
+      <TodoItem
+        index={ ind }
+        key={ todo.id }
+        { ...todo }
+        deleteTodo={ this.deleteTodo }
+        triggerEditTodoModal={ this._triggerEditTodoModal }
+      />
+    ));
+  }
+
+  _renderAddTodoTop() {
+    return (
+      <AddTodoBlock
+        addToTop
+        editMode
+      />
+    );
+  }
+
+  _triggerRenderAddTodoTop = () => {
+    this.setState({ showAddTodoTop: true });
+  }
+
   render() {
-    const { todos } = this.state;
+    const {
+      showAddTodoTop,
+      todos
+    } = this.state;
 
     return (
       <div style={ style.container }>
         <button
-          onClick={ this.triggerAddTodoModal }
+          onClick={ this._triggerRenderAddTodoTop }
           style={ style.addButton }
         >
           Add Todo
         </button>
-        {
-          todos.map((todo, ind) => (
-            <TodoItem
-              index={ ind }
-              key={ todo.id }
-              { ...todo }
-              deleteTodo={ this.deleteTodo }
-              triggerEditTodoModal={ this._triggerEditTodoModal }
-            />
-          ))}
+        { showAddTodoTop ? this._renderAddTodoTop() : null }
+        { this._renderTodos() }
+        <AddTodoBlock />
         <TodoModal />
       </div>
     );

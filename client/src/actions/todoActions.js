@@ -1,4 +1,4 @@
-export const ADD_TODO = 'ADD_TODO';
+export const CREATE_TODO = 'CREATE_TODO';
 export const SAVE_TODO = 'SAVE_TODO';
 export const DELETE_TODO = 'DELETE_TODO';
 export const FETCH_TODO_LIST = 'FETCH_TODO_LIST';
@@ -22,10 +22,11 @@ export const receiveTodoList = (personId, json) => {
   }
 }
 
-export const addTodo = (todoVal) => {
+export const createTodo = ({ todoVal, addToTop }) => {
   return {
-    type: ADD_TODO,
+    type: CREATE_TODO,
     todoVal,
+    addToTop,
   }
 }
 
