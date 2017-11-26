@@ -47,12 +47,13 @@ export class EditTodo extends Component {
         <InputElement
           value={ this.state.value }
           handleChange={ this._handleOnInput }
-          handleEnterPress={ this._saveTodo }
         />
       </Modal>
     );
   }
 }
+
+// handleEnterPress={ this._saveTodo }
 
 EditTodo.defaultProps = {
 

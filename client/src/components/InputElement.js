@@ -69,6 +69,8 @@ InputElement.defaultProps = {
   autofocus: true,
   value: '',
   type: 'text',
+  handleChange: () => {},
+  handleEnterPress: () => {},
 };
 
 InputElement.propTypes = {

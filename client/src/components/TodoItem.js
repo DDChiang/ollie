@@ -7,7 +7,13 @@ import { DragSource, DropTarget } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
 
 import { ItemTypes } from '../constants';
-import { moveTodo } from '../actions/todoActions';
+import {
+  deleteTodo,
+  moveTodo,
+} from '../actions/todoActions';
+import {
+  setModal,
+} from '../actions/modalActions';
 
 const todoSource = {
   beginDrag(props) {
@@ -89,18 +95,22 @@ export class TodoItem extends Component {
   _handleDelete = () => {
     const {
       id,
+      dispatchDeleteTodo,
     } = this.props;
 
-    this.props.deleteTodo(id);
+    dispatchDeleteTodo(id);
   }
 
   _handleEdit = () => {
     const {
       id,
       value,
+      dispatchSetModal,
     } = this.props;
 
-    this.props.triggerEditTodoModal({ id, value });
+    dispatchSetModal('editTodo', {
+      id, value
+    });
   }
 
   render() {
@@ -176,6 +186,8 @@ const style = {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     dispatchMoveTodo: moveTodo,
+    dispatchDeleteTodo: deleteTodo,
+    dispatchSetModal: setModal,
   }, dispatch);
 };
 

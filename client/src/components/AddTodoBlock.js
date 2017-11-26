@@ -22,7 +22,6 @@ export class AddTodoBlock extends Component {
     const { addToTop, dispatchCreateTodo } = this.props
     const todoVal = value.length ? value : this.state.value;
 
-    // Dispatch create Todo
     if (todoVal.trim().length) {
       dispatchCreateTodo({
         todoVal,

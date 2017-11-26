@@ -1,24 +1,18 @@
-// TODO: rename to TodoListContainer
-
 import React, { Component } from 'react';
 import Radium from 'radium';
 import HTML5Backend from 'react-dnd-html5-backend';
+import _ from 'lodash';
 // import update from 'immutability-helper'; // This might be useful in the future
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { DragDropContext } from 'react-dnd';
 
+import AddTodoBlock from '../components/AddTodoBlock';
 import TodoItem from '../components/TodoItem';
-
+import TodoModal from './TodoModal';
 import {
-  deleteTodo,
   fetchTodoList,
 } from '../actions/todoActions';
-import {
-  setModal,
-} from '../actions/modalActions';
-import TodoModal from './TodoModal';
-import AddTodoBlock from '../components/AddTodoBlock';
 
 @DragDropContext(HTML5Backend)
 @Radium
@@ -33,26 +27,40 @@ export class TodoListContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (_.isEqual(nextProps.todos, this.props.todos)) {
+      this.setState({
+        todos: nextProps.todos,
+      });
+    }
+
     this.setState({
-      todos: nextProps.todos,
       showAddTodoTop: false,
     });
   }
 
-  // triggerAddTodoModal = () => {
-  //   this.props.dispatchSetModal('createTodo');
-  // };
-
-  _triggerEditTodoModal = (todoItemData) => {
-    this.props.dispatchSetModal('editTodo', todoItemData);
+  _triggerRenderAddTodoTop = () => {
+    this.setState({
+      showAddTodoTop: true,
+    });
   }
 
-  deleteTodo = (id) => {
-    this.props.dispatchDeleteTodo(id);
+  _renderAddTodoTop() {
+    const { showAddTodoTop } = this.state;
+
+    if (showAddTodoTop) {
+      return (
+        <AddTodoBlock
+          addToTop
+          editMode
+        />
+      );
+    }
   }
 
-  editTodo = (id, val) => {
-    this.props.dispatchSetModal('editTodo');
+  _renderAddTodoBottom() {
+    const { showAddTodoTop } = this.state;
+
+    if (!showAddTodoTop) return <AddTodoBlock />
   }
 
   _renderTodos() {
@@ -61,23 +69,8 @@ export class TodoListContainer extends Component {
         index={ ind }
         key={ todo.id }
         { ...todo }
-        deleteTodo={ this.deleteTodo }
-        triggerEditTodoModal={ this._triggerEditTodoModal }
       />
     ));
-  }
-
-  _renderAddTodoTop() {
-    return (
-      <AddTodoBlock
-        addToTop
-        editMode
-      />
-    );
-  }
-
-  _triggerRenderAddTodoTop = () => {
-    this.setState({ showAddTodoTop: true });
   }
 
   render() {
@@ -94,9 +87,9 @@ export class TodoListContainer extends Component {
         >
           Add Todo
         </button>
-        { showAddTodoTop ? this._renderAddTodoTop() : null }
+        { this._renderAddTodoTop() }
         { this._renderTodos() }
-        <AddTodoBlock />
+        { this._renderAddTodoBottom() }
         <TodoModal />
       </div>
     );
@@ -122,9 +115,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    dispatchDeleteTodo: deleteTodo,
     dispatchFetchTodoList: fetchTodoList,
-    dispatchSetModal: setModal,
   }, dispatch);
 };
 
