@@ -21,6 +21,7 @@ export class TodoListContainer extends Component {
     todos: [],
     showAddTodoTop: false,
     bottomAddTodoEditMode: false,
+    // first load?
   }
 
   componentWillMount() {
@@ -28,13 +29,16 @@ export class TodoListContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (_.isEqual(nextProps.todos, this.props.todos)) {
-      this.setState({
-        todos: nextProps.todos,
-      });
-    }
+    const currentTodos = this.props.todos;
+    const newTodos = nextProps.todos;
 
-    this._resetEditMode();
+    if (!_.isEqual(newTodos, currentTodos)) {
+      this.setState({
+        todos: newTodos,
+      });
+      // sep out to diff condition?
+      this._resetEditMode();
+    }
   }
 
   _triggerRenderAddTodoTop = (e) => {
@@ -128,7 +132,7 @@ export class TodoListContainer extends Component {
 
 const style = {
   container: {
-    width: '80%',
+    width: '100%',
     maxWidth: '800px',
     background: 'grey',
   },
